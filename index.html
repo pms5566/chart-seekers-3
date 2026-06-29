@@ -1,0 +1,1455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chart Seekers — SEBI Registered Research Analyst (In Progress)</title>
+    <meta name="description" content="Serious financial research and technical analysis covering Equity, Commodity, and Crypto markets. Built on research, driven by discipline.">
+    
+    <!-- Google Fonts: DM Sans (Primary) and Quicksand (Secondary) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=Quicksand:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ----------------------------------------------------
+           CHART SEEKERS — SYSTEM DESIGN TOKENS
+        ---------------------------------------------------- */
+        :root {
+            /* Colors */
+            --bg-pure: #FFFFFF;
+            --bg-surface: #F4F4F4;
+            --text-primary: #000000;
+            --text-secondary: #535B62;
+            --text-tertiary: #81878C;
+            --text-dark: #2F363F;
+            --text-muted: #686868;
+            --accent-blue: #1F7AE0;
+            --border-divider: #DDE0E4;
+            --positive: #19AF55;
+            --negative: #D82F44;
+
+            /* Typography */
+            --font-primary: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --font-secondary: 'Quicksand', sans-serif;
+        }
+
+        /* Reset & Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            background-color: var(--bg-pure);
+            color: var(--text-primary);
+            font-family: var(--font-primary);
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            line-height: 1.8; /* 28.8px (1.8) */
+            padding-top: 60px; /* Space for sticky header */
+            overflow-x: hidden;
+        }
+
+        body.nav-open {
+            overflow: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            color: var(--text-primary);
+            line-height: 1.0; /* Line height tight */
+            font-weight: 700;
+        }
+
+        p {
+            color: var(--text-secondary);
+            font-size: 16px;
+            line-height: 1.8; /* 28.8px */
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.25s ease, opacity 0.25s ease;
+        }
+
+        /* Layout Container */
+        .container {
+            max-width: 1184px;
+            margin: 0 auto;
+            padding-left: 32px;
+            padding-right: 32px;
+            width: 100%;
+        }
+
+        /* Section Layouts */
+        section {
+            padding-top: 90px;
+            padding-bottom: 90px;
+            position: relative;
+        }
+
+        .section-label {
+            font-family: var(--font-primary);
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-tertiary);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            line-height: 1.0;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .section-heading {
+            font-family: var(--font-primary);
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 32px;
+            line-height: 1.2;
+        }
+
+        .divider {
+            height: 1px;
+            background-color: var(--border-divider);
+            width: 100%;
+            border: none;
+        }
+
+        /* Buttons & Badges */
+        .btn-pill {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-primary);
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            text-align: center;
+            border: none;
+            line-height: 1.0;
+        }
+
+        .btn-black {
+            background-color: var(--text-primary);
+            color: var(--bg-pure);
+        }
+
+        .btn-black:hover {
+            background-color: var(--text-dark);
+        }
+
+        .btn-white {
+            background-color: var(--bg-pure);
+            color: var(--text-primary);
+            border: 1px solid var(--bg-pure);
+        }
+
+        .btn-white:hover {
+            background-color: var(--bg-surface);
+        }
+
+        .btn-outline-white {
+            background-color: transparent;
+            color: var(--bg-pure);
+            border: 1px solid var(--bg-pure);
+        }
+
+        .btn-outline-white:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .badge-pill {
+            display: inline-flex;
+            align-items: center;
+            font-family: var(--font-secondary);
+            font-size: 12px;
+            font-weight: 500;
+            background-color: var(--bg-surface);
+            color: var(--text-secondary);
+            padding: 4px 12px;
+            border-radius: 20px;
+            line-height: 1.0;
+        }
+
+        /* Image Placeholder Div */
+        .img-placeholder {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-divider);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-secondary);
+            font-size: 12px;
+            color: var(--text-tertiary);
+            text-align: center;
+            width: 100%;
+        }
+
+        /* Fade-in Animation */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ----------------------------------------------------
+           SECTION 1: STICKY HEADER/NAV
+        ---------------------------------------------------- */
+        .main-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background-color: var(--bg-pure);
+            border-bottom: 1px solid var(--border-divider);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .logo-block {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-box {
+            background-color: var(--text-primary);
+            color: var(--bg-pure);
+            font-family: var(--font-primary);
+            font-weight: 700;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            letter-spacing: -1px;
+        }
+
+        .logo-title {
+            font-family: var(--font-primary);
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.0;
+        }
+
+        .desktop-nav {
+            display: flex;
+            gap: 24px;
+        }
+
+        .nav-link {
+            font-family: var(--font-primary);
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            padding: 8px 0;
+        }
+
+        .nav-link:hover {
+            color: var(--text-primary);
+        }
+
+        .header-action .btn-pill {
+            padding: 8px 20px;
+        }
+
+        .hamburger-btn {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 20px;
+            height: 14px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 1100;
+        }
+
+        .hamburger-line {
+            width: 20px;
+            height: 2px;
+            background-color: var(--text-primary);
+            transition: transform 0.25s ease, opacity 0.25s ease;
+        }
+
+        .hamburger-btn.active .hamburger-line:nth-child(1) {
+            transform: translateY(6px) rotate(45deg);
+        }
+
+        .hamburger-btn.active .hamburger-line:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger-btn.active .hamburger-line:nth-child(3) {
+            transform: translateY(-6px) rotate(-45deg);
+        }
+
+        /* Mobile Drawer */
+        .mobile-drawer {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--bg-pure);
+            z-index: 999;
+            transform: translateX(100%);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            flex-direction: column;
+            padding: 32px;
+            gap: 24px;
+            border-top: 1px solid var(--border-divider);
+        }
+
+        .mobile-drawer.open {
+            transform: translateX(0);
+        }
+
+        .mobile-nav-link {
+            font-family: var(--font-primary);
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-divider);
+        }
+
+        .mobile-drawer .btn-pill {
+            margin-top: auto;
+            width: 100%;
+            padding: 12px 24px;
+        }
+
+        /* ----------------------------------------------------
+           SECTION 2: HERO
+        ---------------------------------------------------- */
+        .hero-section {
+            background-color: var(--bg-pure);
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .hero-eyebrow {
+            font-family: var(--font-primary);
+            font-size: 12px;
+            color: var(--text-tertiary);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            font-weight: 700;
+            line-height: 1.0;
+        }
+
+        .hero-headline {
+            font-family: var(--font-primary);
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.1;
+            margin-bottom: 24px;
+        }
+
+        .hero-subline {
+            font-family: var(--font-primary);
+            font-size: 16px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            max-width: 520px;
+            margin-bottom: 32px;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 24px;
+        }
+
+        .hero-cta-link {
+            font-family: var(--font-primary);
+            font-size: 14px;
+            color: var(--accent-blue);
+            font-weight: 700;
+        }
+
+        .hero-cta-link:hover {
+            color: var(--text-primary);
+        }
+
+        /* Stats Grid */
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 32px;
+            background-color: var(--bg-pure);
+        }
+
+        .stat-card {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .stat-number {
+            font-family: var(--font-secondary);
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.0;
+        }
+
+        .stat-label {
+            font-family: var(--font-primary);
+            font-size: 12px;
+            color: var(--text-tertiary);
+            line-height: 1.4;
+        }
+
+        /* ----------------------------------------------------
+           SECTION 3: ABOUT
+        ---------------------------------------------------- */
+        .about-section {
+            background-color: var(--bg-pure);
+        }
+
+        .about-content {
+            max-width: 640px;
+        }
+
+        .about-body {
+            font-family: var(--font-primary);
+            font-size: 16px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 90px;
+        }
+
+        /* ----------------------------------------------------
+           SECTION 4: RESEARCH PHILOSOPHY
+        ---------------------------------------------------- */
+        .philosophy-section {
+            background-color: var(--bg-surface);
+        }
+
+        .philosophy-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .philosophy-card {
+            background-color: var(--bg-pure);
+            border: 1px solid var(--border-divider);
+            border-radius: 16px;
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .philosophy-card-title {
+            font-family: var(--font-primary);
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.0;
+        }
+
+        .philosophy-card-body {
+            font-family: var(--font-primary);
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.8; /* 25px equivalent */
+        }
+
+        /* ----------------------------------------------------
+           SECTION 5: RESEARCH COVERAGE
+        ---------------------------------------------------- */
+        .coverage-section {
+            background-color: var(--bg-pure);
+        }
+
+        .coverage-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+        }
+
+        .coverage-col {
+            border-top: 2px solid var(--accent-blue);
+            padding-top: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .coverage-col-title {
+            font-family: var(--font-primary);
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.0;
+        }
+
+        .coverage-col-body {
+            font-family: var(--font-primary);
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* ----------------------------------------------------
+           SECTION 6: LIVE SESSIONS
+        ---------------------------------------------------- */
+        .live-sessions-section {
+            background-color: var(--text-primary); /* #000000 */
+            color: var(--bg-pure); /* #FFFFFF */
+            text-align: center;
+        }
+
+        .live-sessions-section .section-label {
+            color: var(--text-tertiary);
+        }
+
+        .live-sessions-section .section-heading {
+            color: var(--bg-pure);
+            margin-bottom: 16px;
+        }
+
+        .live-sessions-subline {
+            font-family: var(--font-primary);
+            font-size: 16px;
+            color: var(--text-tertiary);
+            max-width: 600px;
+            margin: 0 auto 32px auto;
+            line-height: 1.8;
+        }
+
+        .live-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+        }
+
+        .live-buttons .btn-pill {
+            padding: 12px 28px;
+        }
+
+        /* ----------------------------------------------------
+           SECTION 7: LATEST INSIGHTS
+        ---------------------------------------------------- */
+        .insights-section {
+            background-color: var(--bg-pure);
+        }
+
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .insight-card {
+            background-color: var(--bg-pure);
+            border: 1px solid var(--border-divider);
+            border-radius: 16px;
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 16px;
+            cursor: pointer;
+            transition: border-color 0.25s ease;
+        }
+
+        .insight-card:hover {
+            border-color: var(--accent-blue);
+        }
+
+        .insight-card-image {
+            aspect-ratio: 16 / 9;
+            width: 100%;
+            height: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-divider);
+            border-radius: 8px;
+            font-family: var(--font-secondary);
+            font-size: 12px;
+            color: var(--text-tertiary);
+        }
+
+        .insight-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .insight-date {
+            font-family: var(--font-secondary);
+            font-size: 12px;
+            color: var(--text-tertiary);
+            line-height: 1.0;
+        }
+
+        .insight-title {
+            font-family: var(--font-primary);
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.4;
+            flex-grow: 1;
+        }
+
+        .insight-link {
+            font-family: var(--font-primary);
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--accent-blue);
+            line-height: 1.0;
+            margin-top: 8px;
+        }
+
+        /* ----------------------------------------------------
+           SECTION 8: CONTACT
+        ---------------------------------------------------- */
+        .contact-section {
+            background-color: var(--bg-surface);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 65px;
+            align-items: start;
+        }
+
+        .contact-left {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .contact-subline {
+            font-family: var(--font-primary);
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+            line-height: 1.8;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-family: var(--font-primary);
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-dark);
+            line-height: 1.0;
+        }
+
+        .form-input {
+            font-family: var(--font-secondary);
+            font-size: 16px;
+            padding: 12px 16px;
+            border: 1px solid var(--border-divider);
+            border-radius: 8px;
+            background-color: var(--bg-pure);
+            color: var(--text-primary);
+            outline: none;
+            transition: border-color 0.25s ease;
+        }
+
+        .form-input:focus {
+            border-color: var(--accent-blue);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+            line-height: 1.5;
+        }
+
+        .contact-form .btn-pill {
+            align-self: flex-start;
+            padding: 12px 28px;
+        }
+
+        .contact-right {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+            padding-top: 24px;
+        }
+
+        .contact-info-block {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .contact-info-label {
+            font-family: var(--font-primary);
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-tertiary);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            line-height: 1.0;
+        }
+
+        .contact-info-value {
+            font-family: var(--font-primary);
+            font-size: 20px;
+            color: var(--accent-blue);
+            font-weight: 500;
+            line-height: 1.2;
+        }
+
+        .contact-info-value:hover {
+            color: var(--text-primary);
+            text-decoration: underline;
+        }
+
+        .contact-social-links {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .contact-social-link {
+            font-family: var(--font-primary);
+            font-size: 16px;
+            color: var(--accent-blue);
+            font-weight: 500;
+            line-height: 1.0;
+        }
+
+        .contact-social-link:hover {
+            color: var(--text-primary);
+            text-decoration: underline;
+        }
+
+        /* ----------------------------------------------------
+           SECTION 9: FOOTER
+        ---------------------------------------------------- */
+        .main-footer {
+            background-color: var(--bg-pure);
+            border-top: 1px solid var(--border-divider);
+            padding-top: 65px;
+            padding-bottom: 32px;
+        }
+
+        .footer-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            gap: 32px;
+            flex-wrap: wrap;
+        }
+
+        .footer-logo-block {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .footer-tagline {
+            font-family: var(--font-primary);
+            font-size: 12px;
+            color: var(--text-tertiary);
+            line-height: 1.0;
+        }
+
+        .footer-nav {
+            display: flex;
+            gap: 24px;
+        }
+
+        .footer-nav-link {
+            font-family: var(--font-primary);
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .footer-nav-link:hover {
+            color: var(--text-primary);
+        }
+
+        .footer-socials {
+            display: flex;
+            gap: 24px;
+        }
+
+        .footer-social-link {
+            font-family: var(--font-primary);
+            font-size: 14px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .footer-social-link:hover {
+            color: var(--text-primary);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--border-divider);
+            padding-top: 32px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            text-align: center;
+        }
+
+        .footer-disclaimer {
+            font-family: var(--font-primary);
+            font-size: 12px;
+            color: var(--text-tertiary);
+            line-height: 1.8;
+            max-width: 800px;
+        }
+
+        .footer-copyright {
+            font-family: var(--font-primary);
+            font-size: 12px;
+            color: var(--text-tertiary);
+            line-height: 1.0;
+        }
+
+        /* ----------------------------------------------------
+           RESPONSIVE BREAKPOINTS (visualeducation / Basant)
+        ---------------------------------------------------- */
+
+        /* Desktop Breakpoint: 1184px+ */
+        @media (min-width: 1184px) {
+            .container {
+                max-width: 1184px;
+            }
+        }
+
+        /* Below Desktop Breakpoint */
+        @media (max-width: 1183px) {
+            .container {
+                max-width: 978px;
+            }
+        }
+
+        /* Tablet Breakpoint: 978px */
+        @media (max-width: 978px) {
+            .container {
+                max-width: 766px;
+            }
+
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 65px;
+            }
+
+            .philosophy-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .insights-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+        }
+
+        /* Small Tablet/Mobile Breakpoint: 766px */
+        @media (max-width: 766px) {
+            .container {
+                max-width: 479px;
+            }
+
+            section {
+                padding-top: 65px;
+                padding-bottom: 65px;
+            }
+
+            .about-body {
+                margin-bottom: 65px;
+            }
+
+            .desktop-nav, .header-action {
+                display: none;
+            }
+
+            .hamburger-btn {
+                display: flex;
+            }
+
+            .coverage-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+
+            .footer-top {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 24px;
+            }
+
+            .footer-nav {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .footer-socials {
+                gap: 16px;
+            }
+        }
+
+        /* Mobile Breakpoint: 479px */
+        @media (max-width: 479px) {
+            .container {
+                padding-left: 16px;
+                padding-right: 16px;
+            }
+
+            .hero-headline {
+                font-size: 36px;
+            }
+
+            .hero-ctas {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .live-buttons {
+                flex-direction: column;
+                gap: 12px;
+            }
+            
+            .live-buttons .btn-pill {
+                width: 100%;
+            }
+
+            .hero-stats {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SECTION 1: STICKY HEADER/NAV -->
+    <header class="main-header">
+        <div class="container header-container">
+            <a href="#" class="logo-block">
+                <div class="logo-box">C|S</div>
+                <span class="logo-title">Chart Seekers</span>
+            </a>
+            
+            <nav class="desktop-nav">
+                <a href="#about" class="nav-link">About</a>
+                <a href="#research" class="nav-link">Research</a>
+                <a href="#coverage" class="nav-link">Coverage</a>
+                <a href="#insights" class="nav-link">Insights</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </nav>
+
+            <div class="header-action">
+                <a href="https://t.me/chartseekers" target="_blank" class="btn-pill btn-black">Join Community</a>
+            </div>
+
+            <button class="hamburger-btn" id="menuBtn" aria-label="Toggle Navigation">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation Drawer -->
+    <div class="mobile-drawer" id="mobileDrawer">
+        <a href="#about" class="mobile-nav-link">About</a>
+        <a href="#research" class="mobile-nav-link">Research</a>
+        <a href="#coverage" class="mobile-nav-link">Coverage</a>
+        <a href="#insights" class="mobile-nav-link">Insights</a>
+        <a href="#contact" class="mobile-nav-link">Contact</a>
+        <a href="https://t.me/chartseekers" target="_blank" class="btn-pill btn-black">Join Community</a>
+    </div>
+
+    <!-- SECTION 2: HERO -->
+    <section class="hero-section">
+        <div class="container hero-grid">
+            <div class="hero-content fade-in">
+                <span class="hero-eyebrow">SEBI REGISTERED RESEARCH ANALYST · IN PROGRESS</span>
+                <h1 class="hero-headline">Independent Research.<br>Institutional Thinking.</h1>
+                <p class="hero-subline">Equity · Commodity · Crypto — Data-driven technical analysis for serious investors.</p>
+                <div class="hero-ctas">
+                    <a href="https://x.com/chartseekers" target="_blank" class="hero-cta-link">→ Follow on X</a>
+                    <a href="https://t.me/chartseekers" target="_blank" class="hero-cta-link">→ Join Telegram</a>
+                </div>
+            </div>
+            <div class="hero-stats fade-in">
+                <div class="stat-card">
+                    <span class="stat-number">1,600+</span>
+                    <span class="stat-label">Community Members</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">3</span>
+                    <span class="stat-label">Markets Covered</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">Since 2010</span>
+                    <span class="stat-label">Years Active</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">50+</span>
+                    <span class="stat-label">Insights Published</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: ABOUT -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="about-content fade-in">
+                <span class="section-label">ABOUT</span>
+                <h2 class="section-heading">Built on Research. Driven by Discipline.</h2>
+                <p class="about-body">
+                    Chart Seekers was founded with one purpose — to bring institutional-grade technical analysis to independent investors. We cover Equity, Commodity, and Crypto markets through a disciplined, data-driven lens. Currently pursuing SEBI Registered Research Analyst certification, we are committed to building a brand rooted in transparency, accuracy, and long-term credibility.
+                </p>
+            </div>
+            <hr class="divider">
+        </div>
+    </section>
+
+    <!-- SECTION 4: RESEARCH PHILOSOPHY -->
+    <section id="research" class="philosophy-section">
+        <div class="container">
+            <div class="fade-in">
+                <span class="section-label">HOW WE THINK</span>
+                <h2 class="section-heading">Our Approach to Markets</h2>
+            </div>
+            
+            <div class="philosophy-grid">
+                <!-- Card 1 -->
+                <div class="philosophy-card fade-in">
+                    <h3 class="philosophy-card-title">Data Over Noise</h3>
+                    <p class="philosophy-card-body">We filter market noise and focus only on high-conviction setups backed by price structure and volume analysis.</p>
+                </div>
+                <!-- Card 2 -->
+                <div class="philosophy-card fade-in">
+                    <h3 class="philosophy-card-title">Unbiased Perspective</h3>
+                    <p class="philosophy-card-body">No sponsored calls. No signal selling. Our research exists solely to educate and inform independent investors.</p>
+                </div>
+                <!-- Card 3 -->
+                <div class="philosophy-card fade-in">
+                    <h3 class="philosophy-card-title">Long-Term Credibility</h3>
+                    <p class="philosophy-card-body">Every analysis is documented. We build trust through consistency and accuracy, not hype.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 5: RESEARCH COVERAGE -->
+    <section id="coverage" class="coverage-section">
+        <div class="container">
+            <div class="fade-in">
+                <span class="section-label">COVERAGE</span>
+                <h2 class="section-heading">What We Analyze</h2>
+            </div>
+            
+            <div class="coverage-grid">
+                <!-- Column 1 -->
+                <div class="coverage-col fade-in">
+                    <h3 class="coverage-col-title">Equity</h3>
+                    <p class="coverage-col-body">Indian indices, large-cap stocks, sector rotation, and global market structure.</p>
+                </div>
+                <!-- Column 2 -->
+                <div class="coverage-col fade-in">
+                    <h3 class="coverage-col-title">Commodity</h3>
+                    <p class="coverage-col-body">Gold, Silver, Crude Oil — macro perspective with technical precision.</p>
+                </div>
+                <!-- Column 3 -->
+                <div class="coverage-col fade-in">
+                    <h3 class="coverage-col-title">Crypto</h3>
+                    <p class="coverage-col-body">Bitcoin, Ethereum, major altcoins — structural analysis, not speculation.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 6: LIVE SESSIONS -->
+    <section class="live-sessions-section">
+        <div class="container fade-in">
+            <span class="section-label">COMMUNITY</span>
+            <h2 class="section-heading">Join Our Live Research Sessions</h2>
+            <p class="live-sessions-subline">We host regular X Spaces where we break down live market structure, key levels, and upcoming opportunities.</p>
+            <div class="live-buttons">
+                <a href="https://x.com/chartseekers" target="_blank" class="btn-pill btn-white">Follow on X →</a>
+                <a href="https://t.me/chartseekers" target="_blank" class="btn-pill btn-outline-white">Join Telegram →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 7: LATEST INSIGHTS -->
+    <section id="insights" class="insights-section">
+        <div class="container">
+            <div class="fade-in">
+                <span class="section-label">INSIGHTS</span>
+                <h2 class="section-heading">Latest Research</h2>
+            </div>
+            
+            <div class="insights-grid">
+                <!-- Card 1 -->
+                <div class="insight-card fade-in">
+                    <img src="equity_chart.png" alt="S&P 500 Equity Market Breakout Chart" style="width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border: 1px solid var(--border-divider); border-radius: 8px;">
+                    <div class="insight-meta">
+                        <span class="badge-pill">Equity</span>
+                        <span class="insight-date">June 2026</span>
+                    </div>
+                    <h3 class="insight-title">Understanding Market Structure Shifts in Volatile Conditions</h3>
+                    <a href="#contact" class="insight-link">Read More →</a>
+                </div>
+                <!-- Card 2 -->
+                <div class="insight-card fade-in">
+                    <svg viewBox="0 0 320 180" width="100%" height="auto" style="background-color: var(--bg-surface); border: 1px solid var(--border-divider); border-radius: 8px; display: block;">
+                        <!-- Gridlines -->
+                        <line x1="20" y1="20" x2="290" y2="20" stroke="var(--border-divider)" stroke-width="0.5" stroke-dasharray="2 2" />
+                        <line x1="20" y1="50" x2="290" y2="50" stroke="var(--border-divider)" stroke-width="0.5" stroke-dasharray="2 2" />
+                        <line x1="20" y1="80" x2="290" y2="80" stroke="var(--border-divider)" stroke-width="0.5" stroke-dasharray="2 2" />
+                        <line x1="20" y1="110" x2="290" y2="110" stroke="var(--border-divider)" stroke-width="0.5" stroke-dasharray="2 2" />
+                        <line x1="20" y1="140" x2="290" y2="140" stroke="var(--border-divider)" stroke-width="0.5" stroke-dasharray="2 2" />
+                        
+                        <!-- Y-Axis Labels -->
+                        <text x="295" y="53" font-family="var(--font-secondary)" font-size="8" fill="var(--text-tertiary)" font-weight="500">2.35K</text>
+                        <text x="295" y="83" font-family="var(--font-secondary)" font-size="8" fill="var(--text-tertiary)" font-weight="500">2.30K</text>
+                        <text x="295" y="113" font-family="var(--font-secondary)" font-size="8" fill="var(--text-tertiary)" font-weight="500">2.25K</text>
+
+                        <!-- Candlesticks (Gold - XAU/USD) -->
+                        <!-- Candle 1: Red -->
+                        <line x1="40" y1="40" x2="40" y2="90" stroke="var(--negative)" stroke-width="1" />
+                        <rect x="36" y="50" width="8" height="30" fill="var(--negative)" />
+                        
+                        <!-- Candle 2: Green -->
+                        <line x1="70" y1="60" x2="70" y2="120" stroke="var(--positive)" stroke-width="1" />
+                        <rect x="66" y="70" width="8" height="40" fill="var(--positive)" />
+
+                        <!-- Candle 3: Green -->
+                        <line x1="100" y1="40" x2="100" y2="90" stroke="var(--positive)" stroke-width="1" />
+                        <rect x="96" y="45" width="8" height="30" fill="var(--positive)" />
+
+                        <!-- Candle 4: Red -->
+                        <line x1="130" y1="50" x2="130" y2="110" stroke="var(--negative)" stroke-width="1" />
+                        <rect x="126" y="60" width="8" height="35" fill="var(--negative)" />
+
+                        <!-- Candle 5: Green -->
+                        <line x1="160" y1="30" x2="160" y2="80" stroke="var(--positive)" stroke-width="1" />
+                        <rect x="156" y="35" width="8" height="35" fill="var(--positive)" />
+
+                        <!-- Candle 6: Green (Breakout) -->
+                        <line x1="190" y1="15" x2="190" y2="60" stroke="var(--positive)" stroke-width="1" />
+                        <rect x="186" y="20" width="8" height="25" fill="var(--positive)" />
+
+                        <!-- Candle 7: Red -->
+                        <line x1="220" y1="20" x2="220" y2="50" stroke="var(--negative)" stroke-width="1" />
+                        <rect x="216" y="25" width="8" height="15" fill="var(--negative)" />
+
+                        <!-- Candle 8: Green -->
+                        <line x1="250" y1="10" x2="250" y2="40" stroke="var(--positive)" stroke-width="1" />
+                        <rect x="246" y="12" width="8" height="20" fill="var(--positive)" />
+
+                        <!-- Candle 9: Green -->
+                        <line x1="280" y1="5" x2="280" y2="30" stroke="var(--positive)" stroke-width="1" />
+                        <rect x="276" y="8" width="8" height="15" fill="var(--positive)" />
+
+                        <!-- Moving Average line -->
+                        <path d="M 40 75 Q 70 85 100 65 T 160 45 T 220 30 T 280 15" fill="none" stroke="var(--accent-blue)" stroke-width="1.5" />
+                        
+                        <!-- Title Text Overlay -->
+                        <text x="12" y="18" font-family="var(--font-primary)" font-weight="700" font-size="9" fill="var(--text-primary)">XAU/USD 1D · Gold Commodity</text>
+                    </svg>
+                    <div class="insight-meta">
+                        <span class="badge-pill">Commodity</span>
+                        <span class="insight-date">June 2026</span>
+                    </div>
+                    <h3 class="insight-title">Gold's Technical Outlook: Key Levels to Watch This Quarter</h3>
+                    <a href="#contact" class="insight-link">Read More →</a>
+                </div>
+                <!-- Card 3 -->
+                <div class="insight-card fade-in">
+                    <svg viewBox="0 0 320 180" width="100%" height="auto" style="background-color: var(--bg-surface); border: 1px solid var(--border-divider); border-radius: 8px; display: block;">
+                        <!-- Gridlines -->
+                        <line x1="20" y1="20" x2="290" y2="20" stroke="var(--border-divider)" stroke-width="0.5" stroke-dasharray="2 2" />
+                        <line x1="20" y1="50" x2="290" y2="50" stroke="var(--border-divider)" stroke-width="0.5" stroke-dasharray="2 2" />
+                        <line x1="20" y1="80" x2="290" y2="80" stroke="var(--border-divider)" stroke-width="0.5" stroke-dasharray="2 2" />
+                        <line x1="20" y1="110" x2="290" y2="110" stroke="var(--border-divider)" stroke-width="0.5" stroke-dasharray="2 2" />
+                        <line x1="20" y1="140" x2="290" y2="140" stroke="var(--border-divider)" stroke-width="0.5" stroke-dasharray="2 2" />
+                        
+                        <!-- Y-Axis Labels -->
+                        <text x="295" y="53" font-family="var(--font-secondary)" font-size="8" fill="var(--text-tertiary)" font-weight="500">69K</text>
+                        <text x="295" y="83" font-family="var(--font-secondary)" font-size="8" fill="var(--text-tertiary)" font-weight="500">67K</text>
+                        <text x="295" y="113" font-family="var(--font-secondary)" font-size="8" fill="var(--text-tertiary)" font-weight="500">65K</text>
+
+                        <!-- Candlesticks (Bitcoin - BTC/USD) -->
+                        <!-- Candle 1: Green -->
+                        <line x1="40" y1="80" x2="40" y2="130" stroke="var(--positive)" stroke-width="1" />
+                        <rect x="36" y="90" width="8" height="30" fill="var(--positive)" />
+                        
+                        <!-- Candle 2: Red -->
+                        <line x1="70" y1="90" x2="70" y2="140" stroke="var(--negative)" stroke-width="1" />
+                        <rect x="66" y="100" width="8" height="30" fill="var(--negative)" />
+
+                        <!-- Candle 3: Red -->
+                        <line x1="100" y1="100" x2="100" y2="150" stroke="var(--negative)" stroke-width="1" />
+                        <rect x="96" y="110" width="8" height="30" fill="var(--negative)" />
+
+                        <!-- Candle 4: Green (Support bounce) -->
+                        <line x1="130" y1="85" x2="130" y2="148" stroke="var(--positive)" stroke-width="1" />
+                        <rect x="126" y="100" width="8" height="40" fill="var(--positive)" />
+
+                        <!-- Candle 5: Green -->
+                        <line x1="160" y1="60" x2="160" y2="110" stroke="var(--positive)" stroke-width="1" />
+                        <rect x="156" y="70" width="8" height="35" fill="var(--positive)" />
+
+                        <!-- Candle 6: Red -->
+                        <line x1="190" y1="70" x2="190" y2="100" stroke="var(--negative)" stroke-width="1" />
+                        <rect x="186" y="75" width="8" height="20" fill="var(--negative)" />
+
+                        <!-- Candle 7: Green (Breakout) -->
+                        <line x1="220" y1="30" x2="220" y2="85" stroke="var(--positive)" stroke-width="1" />
+                        <rect x="216" y="40" width="8" height="40" fill="var(--positive)" />
+
+                        <!-- Candle 8: Green -->
+                        <line x1="250" y1="15" x2="250" y2="55" stroke="var(--positive)" stroke-width="1" />
+                        <rect x="246" y="20" width="8" height="30" fill="var(--positive)" />
+
+                        <!-- Candle 9: Red -->
+                        <line x1="280" y1="20" x2="280" y2="60" stroke="var(--negative)" stroke-width="1" />
+                        <rect x="276" y="25" width="8" height="25" fill="var(--negative)" />
+
+                        <!-- Moving Average line -->
+                        <path d="M 40 115 Q 70 120 100 130 T 160 90 T 220 55 T 280 40" fill="none" stroke="var(--accent-blue)" stroke-width="1.5" />
+                        
+                        <!-- Title Text Overlay -->
+                        <text x="12" y="18" font-family="var(--font-primary)" font-weight="700" font-size="9" fill="var(--text-primary)">BTC/USD 1W · Bitcoin Weekly</text>
+                    </svg>
+                    <div class="insight-meta">
+                        <span class="badge-pill">Crypto</span>
+                        <span class="insight-date">June 2026</span>
+                    </div>
+                    <h3 class="insight-title">Bitcoin Weekly Structure: What the Charts Are Telling Us</h3>
+                    <a href="#contact" class="insight-link">Read More →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 8: CONTACT -->
+    <section id="contact" class="contact-section">
+        <div class="container contact-grid">
+            <div class="contact-left fade-in">
+                <span class="section-label">CONTACT</span>
+                <h2 class="section-heading">Research Inquiries & Collaborations</h2>
+                <p class="contact-subline">For research partnerships, media inquiries, or general questions.</p>
+                
+                <form class="contact-form" id="contactForm">
+                    <div class="form-group">
+                        <label for="nameInput">Name</label>
+                        <input type="text" id="nameInput" class="form-input" required placeholder="Your full name">
+                    </div>
+                    <div class="form-group">
+                        <label for="emailInput">Email Address</label>
+                        <input type="email" id="emailInput" class="form-input" required placeholder="Your email address">
+                    </div>
+                    <div class="form-group">
+                        <label for="messageInput">Message</label>
+                        <textarea id="messageInput" class="form-input form-textarea" required placeholder="Describe your inquiry..."></textarea>
+                    </div>
+                    <button type="submit" class="btn-pill btn-black">Send Message</button>
+                </form>
+            </div>
+            
+            <div class="contact-right fade-in">
+                <div class="contact-info-block">
+                    <span class="contact-info-label">Direct Email</span>
+                    <a href="mailto:research@chartseekers.com" class="contact-info-value">research@chartseekers.com</a>
+                </div>
+                
+                <div class="contact-info-block">
+                    <span class="contact-info-label">Social Channels</span>
+                    <div class="contact-social-links">
+                        <a href="https://x.com/chartseekers" target="_blank" class="contact-social-link">X (Twitter)</a>
+                        <a href="https://t.me/chartseekers" target="_blank" class="contact-social-link">Telegram Channel</a>
+                        <a href="https://youtube.com/@chartseekers" target="_blank" class="contact-social-link">YouTube Channel</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 9: FOOTER -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-top">
+                <div class="footer-logo-block">
+                    <div class="logo-block">
+                        <div class="logo-box">C|S</div>
+                        <span class="logo-title">Chart Seekers</span>
+                    </div>
+                    <span class="footer-tagline">Research & Technical Analysis</span>
+                </div>
+                
+                <nav class="footer-nav">
+                    <a href="#about" class="footer-nav-link">About</a>
+                    <a href="#research" class="footer-nav-link">Research</a>
+                    <a href="#coverage" class="footer-nav-link">Coverage</a>
+                    <a href="#insights" class="footer-nav-link">Insights</a>
+                    <a href="#contact" class="footer-nav-link">Contact</a>
+                </nav>
+                
+                <div class="footer-socials">
+                    <a href="https://x.com/chartseekers" target="_blank" class="footer-social-link">X</a>
+                    <a href="https://t.me/chartseekers" target="_blank" class="footer-social-link">Telegram</a>
+                    <a href="https://youtube.com/@chartseekers" target="_blank" class="footer-social-link">YouTube</a>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p class="footer-disclaimer">
+                    All content published by Chart Seekers is strictly for educational and informational purposes only. This does not constitute financial advice. SEBI Registration: In Progress.
+                </p>
+                <p class="footer-copyright">
+                    &copy; 2026 Chart Seekers. All Rights Reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Minimal Scroll Animation & Menu Logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Scroll fade-in animation using Intersection Observer
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.05
+            };
+
+            const fadeObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target); // Stop observing once visible
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.fade-in').forEach(el => {
+                fadeObserver.observe(el);
+            });
+
+            // Mobile menu drawer toggle
+            const menuBtn = document.getElementById('menuBtn');
+            const mobileDrawer = document.getElementById('mobileDrawer');
+
+            if (menuBtn && mobileDrawer) {
+                menuBtn.addEventListener('click', () => {
+                    menuBtn.classList.toggle('active');
+                    mobileDrawer.classList.toggle('open');
+                    document.body.classList.toggle('nav-open');
+                });
+
+                // Close drawer on click of nav link
+                const mobileLinks = mobileDrawer.querySelectorAll('a');
+                mobileLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        menuBtn.classList.remove('active');
+                        mobileDrawer.classList.remove('open');
+                        document.body.classList.remove('nav-open');
+                    });
+                });
+            }
+
+            // Contact Form Feedback Simulator
+            const contactForm = document.getElementById('contactForm');
+            if (contactForm) {
+                contactForm.addEventListener('submit', (event) => {
+                    event.preventDefault();
+                    
+                    const submitBtn = contactForm.querySelector('button[type="submit"]');
+                    const originalText = submitBtn.textContent;
+                    
+                    submitBtn.textContent = 'Sending Message...';
+                    submitBtn.disabled = true;
+                    
+                    setTimeout(() => {
+                        submitBtn.textContent = 'Message Sent';
+                        submitBtn.style.backgroundColor = '#19AF55'; // Positive Green
+                        contactForm.reset();
+                        
+                        setTimeout(() => {
+                            submitBtn.textContent = originalText;
+                            submitBtn.style.backgroundColor = ''; // Back to black
+                            submitBtn.disabled = false;
+                        }, 2500);
+                    }, 1200);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
