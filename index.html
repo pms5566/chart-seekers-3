@@ -430,7 +430,7 @@
         .hero-cta-link {
             font-family: var(--font-family);
             font-size: 14px;
-            color: var(--color-primary);
+            color: #533afd !important;
             font-weight: 500;
             text-decoration: none;
         }
@@ -482,6 +482,7 @@
         ---------------------------------------------------- */
         .about-section {
             background-color: var(--color-surface);
+            padding-bottom: 0;
         }
 
         .about-content {
@@ -491,7 +492,7 @@
         .about-body {
             border-left: 2px solid var(--color-primary);
             padding-left: 24px;
-            margin-bottom: 96px;
+            margin-bottom: 32px;
         }
 
         /* ----------------------------------------------------
@@ -509,13 +510,15 @@
 
         .philosophy-card {
             background-color: var(--color-surface);
-            border: 1px solid var(--color-border);
+            border-right: 1px solid var(--color-border);
+            border-bottom: 1px solid var(--color-border);
+            border-left: 1px solid var(--color-border);
+            border-top: 2px solid var(--color-primary);
             border-radius: var(--radius-xl);
             padding: 32px;
             display: flex;
             flex-direction: column;
             gap: 16px;
-            border-top: 2px solid var(--color-primary);
             box-shadow: var(--shadow-md);
             transition: all 0.2s ease;
         }
@@ -622,7 +625,26 @@
             border-radius: var(--radius-md);
         }
 
-        .live-buttons .btn-primary:hover, .live-buttons .btn-secondary:hover {
+        .live-buttons .btn-primary {
+            background-color: var(--color-primary);
+            color: var(--color-surface);
+            border: 1px solid var(--color-primary);
+        }
+
+        .live-buttons .btn-primary:hover {
+            background-color: var(--color-dark);
+            border-color: var(--color-dark);
+            box-shadow: var(--shadow-md);
+        }
+
+        .live-buttons .btn-secondary {
+            background-color: transparent;
+            border: 1px solid #e5edf5;
+            color: var(--color-surface);
+        }
+
+        .live-buttons .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.1);
             box-shadow: var(--shadow-md);
         }
 
@@ -975,8 +997,12 @@
                 padding-bottom: 40px;
             }
 
+            .about-section {
+                padding-bottom: 0;
+            }
+
             .about-body {
-                margin-bottom: 40px;
+                margin-bottom: 32px;
             }
 
             .desktop-nav, .header-action {
