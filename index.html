@@ -17,16 +17,16 @@
         ---------------------------------------------------- */
         :root {
             /* Color Tokens */
-            --color-primary:        #533afd; /* Stripe Indigo */
-            --color-heading:        #061b31; /* Deep Navy */
-            --color-body:           #50617a; /* Slate Body */
-            --color-subheading:     #64748d; /* Subdued */
-            --color-dark:           #273951; /* Dark Slate */
+            --color-primary:        #0D4B3A; /* Deep Forest Green */
+            --color-heading:        #111111; /* Text Primary */
+            --color-body:           #5A5A6A; /* Text Muted */
+            --color-subheading:     #5A5A6A; /* Subdued */
+            --color-dark:           #0B3E30; /* Secondary Dark Green */
             --color-surface:        #ffffff; /* Surface White */
-            --color-pale:           #f8fafd; /* Pale Background */
-            --color-border:         #e5edf5; /* Quiet Surface */
-            --color-lavender:       #7f7dfc; /* Brand Lavender */
-            --color-orange:         #ff6118; /* Stripe Orange */
+            --color-pale:           #f9f9f8; /* Pale Background */
+            --color-border:         #e9ecef; /* Quiet Surface */
+            --color-lavender:       #c5e063; /* Brand Lavender */
+            --color-orange:         #b2cc52; /* Stripe Orange */
 
             --font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
 
@@ -37,7 +37,7 @@
             --radius-xl:      16px;
 
             /* Elevation (Cards Only) */
-            --shadow-sm:      0px 2px 5px 0px rgba(0,0,0,0.1);
+            --shadow-sm:      0px 2px 5px 0px rgba(119, 119, 199, 0.1);
             --shadow-md:      0px 15px 35px 0px rgba(23,23,23,0.08);
             --shadow-lg:      0px 16px 32px 0px rgba(50,50,93,0.12);
         }
@@ -190,7 +190,7 @@
             font-family: var(--font-family);
             font-size: 10px;
             font-weight: 700;
-            background-color: #ede9ff;
+            background-color: #EBF7F4;
             color: var(--color-primary);
             padding: 4px 8px;
             border-radius: var(--radius-sm);
@@ -232,7 +232,7 @@
             background-color: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            box-shadow: 0px 2px 5px rgba(119, 119, 199, 0.1);
         }
 
         .header-container {
@@ -368,7 +368,7 @@
            SECTION 2: HERO (Stripe Diagonal Ribbon Graphic)
         ---------------------------------------------------- */
         .hero-section {
-            background: linear-gradient(135deg, #f8fafd 0%, #ffffff 60%, #ede9ff 100%);
+            background: linear-gradient(135deg, var(--color-pale) 0%, var(--color-surface) 60%, #EBF7F4 100%);
             overflow: hidden;
             position: relative;
         }
