@@ -4,34 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chart Seekers — SEBI Registered Research Analyst (In Progress)</title>
-    <meta name="description" content="Serious financial research and technical analysis covering Equity, Commodity, and Crypto markets. Built on research, driven by discipline.">
+    <meta name="description" content="Serious financial research and technical analysis covering Equity, Commodity, and Crypto markets. Stripe-inspired visual upgrade.">
     
     <!-- Google Fonts: DM Sans (Primary) and Quicksand (Secondary) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&family=Quicksand:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,300;1,9..40,400&family=Quicksand:wght@300;400;500;700&display=swap" rel="stylesheet">
     
     <style>
         /* ----------------------------------------------------
-           CHART SEEKERS — SYSTEM DESIGN TOKENS
+           CHART SEEKERS — STRIPE-INSPIRED DESIGN SYSTEM
         ---------------------------------------------------- */
         :root {
-            /* Colors */
-            --bg-pure: #FFFFFF;
-            --bg-surface: #F4F4F4;
-            --text-primary: #000000;
-            --text-secondary: #535B62;
-            --text-tertiary: #81878C;
-            --text-dark: #2F363F;
-            --text-muted: #686868;
-            --accent-blue: #1F7AE0;
-            --border-divider: #DDE0E4;
-            --positive: #19AF55;
-            --negative: #D82F44;
+            /* Color Tokens */
+            --color-primary:        #533afd; /* Stripe Indigo */
+            --color-heading:        #061b31; /* Deep Navy */
+            --color-body:           #50617a; /* Slate Body */
+            --color-subheading:     #64748d; /* Subdued */
+            --color-dark:           #273951; /* Dark Slate */
+            --color-surface:        #ffffff; /* Surface White */
+            --color-pale:           #f8fafd; /* Pale Background */
+            --color-border:         #e5edf5; /* Quiet Surface */
+            --color-lavender:       #7f7dfc; /* Brand Lavender */
+            --color-orange:         #ff6118; /* Stripe Orange */
 
-            /* Typography */
-            --font-primary: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            --font-secondary: 'Quicksand', sans-serif;
+            --font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+
+            /* Spacing Radii */
+            --radius-sm:      4px;
+            --radius-md:      6px;
+            --radius-lg:      8px;
+            --radius-xl:      16px;
+
+            /* Elevation (Cards Only) */
+            --shadow-sm:      0px 2px 5px 0px rgba(0,0,0,0.1);
+            --shadow-md:      0px 15px 35px 0px rgba(23,23,23,0.08);
+            --shadow-lg:      0px 16px 32px 0px rgba(50,50,93,0.12);
         }
 
         /* Reset & Base Styles */
@@ -43,16 +51,16 @@
 
         html {
             scroll-behavior: smooth;
-            background-color: var(--bg-pure);
-            color: var(--text-primary);
-            font-family: var(--font-primary);
+            background-color: var(--color-surface);
+            color: var(--color-body);
+            font-family: var(--font-family);
             font-size: 16px;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
         }
 
         body {
-            line-height: 1.8; /* 28.8px (1.8) */
+            line-height: 1.4;
             padding-top: 60px; /* Space for sticky header */
             overflow-x: hidden;
         }
@@ -61,45 +69,66 @@
             overflow: hidden;
         }
 
-        h1, h2, h3, h4, h5, h6 {
-            color: var(--text-primary);
-            line-height: 1.0; /* Line height tight */
-            font-weight: 700;
+        /* Typography Hierarchy (Stripe Signature: Light weight 300, -0.02em letter-spacing) */
+        h1, h2, h3 {
+            color: var(--color-heading);
+            letter-spacing: -0.02em;
+            font-weight: 300;
+        }
+
+        h1 {
+            font-size: 48px;
+            line-height: 1.03;
+            letter-spacing: -0.02em;
+        }
+
+        h2 {
+            font-size: 32px;
+            line-height: 1.1;
+        }
+
+        h3 {
+            font-size: 22px;
+            line-height: 1.1;
+            letter-spacing: -0.01em;
         }
 
         p {
-            color: var(--text-secondary);
+            color: var(--color-body);
             font-size: 16px;
-            line-height: 1.8; /* 28.8px */
+            line-height: 22.4px;
+            font-weight: 400;
         }
 
         a {
             color: inherit;
             text-decoration: none;
-            transition: color 0.25s ease, opacity 0.25s ease;
+            transition: all 0.2s ease;
         }
 
         /* Layout Container */
         .container {
-            max-width: 1184px;
+            max-width: 1100px;
             margin: 0 auto;
-            padding-left: 32px;
-            padding-right: 32px;
+            padding-left: 24px;
+            padding-right: 24px;
             width: 100%;
+            position: relative;
+            z-index: 2;
         }
 
-        /* Section Layouts */
+        /* Section Layouts (Consistent 96px Padding) */
         section {
-            padding-top: 90px;
-            padding-bottom: 90px;
+            padding-top: 96px;
+            padding-bottom: 96px;
             position: relative;
         }
 
         .section-label {
-            font-family: var(--font-primary);
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--text-tertiary);
+            font-family: var(--font-family);
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--color-subheading);
             letter-spacing: 2px;
             text-transform: uppercase;
             line-height: 1.0;
@@ -108,98 +137,72 @@
         }
 
         .section-heading {
-            font-family: var(--font-primary);
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--text-primary);
             margin-bottom: 32px;
-            line-height: 1.2;
         }
 
         .divider {
             height: 1px;
-            background-color: var(--border-divider);
+            background-color: var(--color-border);
             width: 100%;
             border: none;
         }
 
-        /* Buttons & Badges */
+        /* Buttons & Badges (Stripe styled) */
         .btn-pill {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            font-family: var(--font-primary);
+            font-family: var(--font-family);
             font-size: 14px;
             font-weight: 500;
-            border-radius: 20px;
+            border-radius: var(--radius-md);
             cursor: pointer;
-            transition: all 0.25s ease;
+            transition: all 0.2s ease;
             text-align: center;
             border: none;
             line-height: 1.0;
+            text-decoration: none;
         }
 
-        .btn-black {
-            background-color: var(--text-primary);
-            color: var(--bg-pure);
+        .btn-primary {
+            background-color: var(--color-primary);
+            color: var(--color-surface);
         }
 
-        .btn-black:hover {
-            background-color: var(--text-dark);
+        .btn-primary:hover {
+            background-color: var(--color-dark);
+            box-shadow: var(--shadow-sm);
         }
 
-        .btn-white {
-            background-color: var(--bg-pure);
-            color: var(--text-primary);
-            border: 1px solid var(--bg-pure);
-        }
-
-        .btn-white:hover {
-            background-color: var(--bg-surface);
-        }
-
-        .btn-outline-white {
+        .btn-secondary {
             background-color: transparent;
-            color: var(--bg-pure);
-            border: 1px solid var(--bg-pure);
+            border: 1px solid var(--color-border);
+            color: var(--color-surface);
         }
 
-        .btn-outline-white:hover {
-            background-color: rgba(255, 255, 255, 0.1);
+        .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.15);
         }
 
         .badge-pill {
             display: inline-flex;
             align-items: center;
-            font-family: var(--font-secondary);
-            font-size: 12px;
-            font-weight: 500;
-            background-color: var(--bg-surface);
-            color: var(--text-secondary);
-            padding: 4px 12px;
-            border-radius: 20px;
+            font-family: var(--font-family);
+            font-size: 10px;
+            font-weight: 700;
+            background-color: #ede9ff;
+            color: var(--color-primary);
+            padding: 4px 8px;
+            border-radius: var(--radius-sm);
             line-height: 1.0;
-        }
-
-        /* Image Placeholder Div */
-        .img-placeholder {
-            background-color: var(--bg-surface);
-            border: 1px solid var(--border-divider);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: var(--font-secondary);
-            font-size: 12px;
-            color: var(--text-tertiary);
-            text-align: center;
-            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         /* Fade-in Animation */
         .fade-in {
             opacity: 0;
-            transform: translateY(24px);
+            transform: translateY(16px);
             transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
@@ -217,11 +220,19 @@
             left: 0;
             right: 0;
             height: 60px;
-            background-color: var(--bg-pure);
-            border-bottom: 1px solid var(--border-divider);
+            background-color: var(--color-surface);
+            border-bottom: 1px solid var(--color-border);
             z-index: 1000;
             display: flex;
             align-items: center;
+            transition: all 0.2s ease;
+        }
+
+        .main-header.header-scrolled {
+            background-color: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
         }
 
         .header-container {
@@ -235,28 +246,24 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            text-decoration: none;
         }
 
-        .logo-box {
-            background-color: var(--text-primary);
-            color: var(--bg-pure);
-            font-family: var(--font-primary);
-            font-weight: 700;
+        .logo-monogram {
+            font-family: var(--font-family);
             font-size: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 32px;
-            height: 32px;
-            border-radius: 4px;
-            letter-spacing: -1px;
+            font-weight: 700;
+            color: var(--color-heading);
+            border-right: 1px solid var(--color-border);
+            padding-right: 8px;
+            line-height: 1.0;
         }
 
         .logo-title {
-            font-family: var(--font-primary);
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--text-primary);
+            font-family: var(--font-family);
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--color-heading);
             line-height: 1.0;
         }
 
@@ -266,19 +273,21 @@
         }
 
         .nav-link {
-            font-family: var(--font-primary);
+            font-family: var(--font-family);
             font-size: 14px;
-            color: var(--text-secondary);
+            color: var(--color-body);
             font-weight: 500;
             padding: 8px 0;
         }
 
         .nav-link:hover {
-            color: var(--text-primary);
+            color: var(--color-primary);
         }
 
         .header-action .btn-pill {
-            padding: 8px 20px;
+            padding: 10px 20px;
+            font-size: 14px;
+            border-radius: var(--radius-md);
         }
 
         .hamburger-btn {
@@ -297,7 +306,7 @@
         .hamburger-line {
             width: 20px;
             height: 2px;
-            background-color: var(--text-primary);
+            background-color: var(--color-heading);
             transition: transform 0.25s ease, opacity 0.25s ease;
         }
 
@@ -320,7 +329,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: var(--bg-pure);
+            background-color: var(--color-surface);
             z-index: 999;
             transform: translateX(100%);
             transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -328,7 +337,7 @@
             flex-direction: column;
             padding: 32px;
             gap: 24px;
-            border-top: 1px solid var(--border-divider);
+            border-top: 1px solid var(--color-border);
         }
 
         .mobile-drawer.open {
@@ -336,30 +345,49 @@
         }
 
         .mobile-nav-link {
-            font-family: var(--font-primary);
+            font-family: var(--font-family);
             font-size: 20px;
-            font-weight: 700;
-            color: var(--text-primary);
+            font-weight: 300;
+            color: var(--color-heading);
             padding: 12px 0;
-            border-bottom: 1px solid var(--border-divider);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .mobile-nav-link:hover {
+            color: var(--color-primary);
         }
 
         .mobile-drawer .btn-pill {
             margin-top: auto;
             width: 100%;
             padding: 12px 24px;
+            border-radius: var(--radius-md);
         }
 
         /* ----------------------------------------------------
-           SECTION 2: HERO
+           SECTION 2: HERO (Stripe Diagonal Ribbon Graphic)
         ---------------------------------------------------- */
         .hero-section {
-            background-color: var(--bg-pure);
+            background: linear-gradient(135deg, #f8fafd 0%, #ffffff 60%, #ede9ff 100%);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .hero-diagonal-ribbon {
+            position: absolute;
+            top: -20%;
+            right: -10%;
+            width: 45%;
+            height: 140%;
+            background: linear-gradient(135deg, var(--color-lavender) 0%, var(--color-primary) 100%);
+            transform: skewX(-12deg);
+            z-index: 1;
+            border-radius: 40px;
         }
 
         .hero-grid {
             display: grid;
-            grid-template-columns: 1.2fr 0.8fr;
+            grid-template-columns: 1.25fr 0.75fr;
             gap: 32px;
             align-items: center;
         }
@@ -368,51 +396,48 @@
             display: flex;
             flex-direction: column;
             align-items: flex-start;
+            max-width: 580px;
         }
 
         .hero-eyebrow {
-            font-family: var(--font-primary);
-            font-size: 12px;
-            color: var(--text-tertiary);
-            letter-spacing: 2px;
-            text-transform: uppercase;
             margin-bottom: 16px;
-            font-weight: 700;
-            line-height: 1.0;
         }
 
         .hero-headline {
-            font-family: var(--font-primary);
-            font-size: 48px;
-            font-weight: 700;
-            color: var(--text-primary);
-            line-height: 1.1;
             margin-bottom: 24px;
         }
 
         .hero-subline {
-            font-family: var(--font-primary);
             font-size: 16px;
-            color: var(--text-secondary);
-            line-height: 1.8;
-            max-width: 520px;
+            line-height: 22.4px;
+            font-weight: 300;
+            color: var(--color-body);
             margin-bottom: 32px;
         }
 
         .hero-ctas {
             display: flex;
+            align-items: center;
             gap: 24px;
         }
 
-        .hero-cta-link {
-            font-family: var(--font-primary);
+        .hero-ctas .btn-pill {
+            padding: 12px 24px;
             font-size: 14px;
-            color: var(--accent-blue);
-            font-weight: 700;
+            border-radius: var(--radius-md);
+        }
+
+        .hero-cta-link {
+            font-family: var(--font-family);
+            font-size: 14px;
+            color: var(--color-primary);
+            font-weight: 500;
+            text-decoration: none;
         }
 
         .hero-cta-link:hover {
-            color: var(--text-primary);
+            color: var(--color-dark);
+            text-decoration: underline;
         }
 
         /* Stats Grid */
@@ -420,7 +445,8 @@
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 32px;
-            background-color: var(--bg-pure);
+            position: relative;
+            z-index: 2;
         }
 
         .stat-card {
@@ -430,193 +456,214 @@
         }
 
         .stat-number {
-            font-family: var(--font-secondary);
+            font-family: var(--font-family);
             font-size: 28px;
-            font-weight: 700;
-            color: var(--text-primary);
+            font-weight: 700; /* Allowed stats bold */
+            color: var(--color-heading);
             line-height: 1.0;
         }
 
         .stat-label {
-            font-family: var(--font-primary);
-            font-size: 12px;
-            color: var(--text-tertiary);
-            line-height: 1.4;
+            font-family: var(--font-family);
+            font-size: 11px;
+            color: var(--color-subheading);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            line-height: 1.2;
         }
 
         /* ----------------------------------------------------
            SECTION 3: ABOUT
         ---------------------------------------------------- */
         .about-section {
-            background-color: var(--bg-pure);
+            background-color: var(--color-surface);
         }
 
         .about-content {
-            max-width: 640px;
+            max-width: 600px;
         }
 
         .about-body {
-            font-family: var(--font-primary);
-            font-size: 16px;
-            color: var(--text-secondary);
-            line-height: 1.8;
-            margin-bottom: 90px;
+            border-left: 2px solid var(--color-primary);
+            padding-left: 24px;
+            margin-bottom: 96px;
         }
 
         /* ----------------------------------------------------
            SECTION 4: RESEARCH PHILOSOPHY
         ---------------------------------------------------- */
         .philosophy-section {
-            background-color: var(--bg-surface);
+            background-color: var(--color-pale);
         }
 
         .philosophy-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
+            gap: 32px;
         }
 
         .philosophy-card {
-            background-color: var(--bg-pure);
-            border: 1px solid var(--border-divider);
-            border-radius: 16px;
+            background-color: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-xl);
             padding: 32px;
             display: flex;
             flex-direction: column;
             gap: 16px;
+            border-top: 2px solid var(--color-primary);
+            box-shadow: var(--shadow-md);
+            transition: all 0.2s ease;
+        }
+
+        .philosophy-card:hover {
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
         }
 
         .philosophy-card-title {
-            font-family: var(--font-primary);
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--text-primary);
-            line-height: 1.0;
+            color: var(--color-heading);
         }
 
         .philosophy-card-body {
-            font-family: var(--font-primary);
-            font-size: 14px;
-            color: var(--text-secondary);
-            line-height: 1.8; /* 25px equivalent */
+            font-size: 16px;
+            line-height: 22.4px;
+            color: var(--color-body);
         }
 
         /* ----------------------------------------------------
            SECTION 5: RESEARCH COVERAGE
         ---------------------------------------------------- */
         .coverage-section {
-            background-color: var(--bg-pure);
+            background-color: var(--color-surface);
         }
 
         .coverage-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 32px;
+            gap: 40px;
         }
 
         .coverage-col {
-            border-top: 2px solid var(--accent-blue);
+            border-top: 2px solid var(--color-primary);
             padding-top: 24px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 16px;
+            align-items: flex-start;
         }
 
         .coverage-col-title {
-            font-family: var(--font-primary);
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--text-primary);
-            line-height: 1.0;
+            color: var(--color-heading);
+            margin-top: 4px;
         }
 
         .coverage-col-body {
-            font-family: var(--font-primary);
-            font-size: 14px;
-            color: var(--text-secondary);
-            line-height: 1.8;
+            font-size: 16px;
+            line-height: 22.4px;
+            color: var(--color-body);
         }
 
         /* ----------------------------------------------------
-           SECTION 6: LIVE SESSIONS
+           SECTION 6: COMMUNITY/LIVE SESSIONS
         ---------------------------------------------------- */
         .live-sessions-section {
-            background-color: var(--text-primary); /* #000000 */
-            color: var(--bg-pure); /* #FFFFFF */
+            background: linear-gradient(135deg, var(--color-heading) 0%, var(--color-dark) 100%);
+            color: var(--color-surface);
             text-align: center;
+            overflow: hidden;
+        }
+
+        .community-glow-shape {
+            position: absolute;
+            top: -40%;
+            left: -20%;
+            width: 70%;
+            height: 180%;
+            background: radial-gradient(circle, var(--color-lavender) 0%, transparent 60%);
+            opacity: 0.1;
+            z-index: 1;
+            pointer-events: none;
         }
 
         .live-sessions-section .section-label {
-            color: var(--text-tertiary);
+            color: var(--color-subheading);
         }
 
         .live-sessions-section .section-heading {
-            color: var(--bg-pure);
+            color: var(--color-surface);
             margin-bottom: 16px;
         }
 
         .live-sessions-subline {
-            font-family: var(--font-primary);
             font-size: 16px;
-            color: var(--text-tertiary);
+            line-height: 22.4px;
+            color: #94a3b8; /* Lighter slate dark theme helper */
             max-width: 600px;
             margin: 0 auto 32px auto;
-            line-height: 1.8;
+            font-weight: 300;
         }
 
         .live-buttons {
             display: flex;
             justify-content: center;
             gap: 16px;
+            position: relative;
+            z-index: 2;
         }
 
         .live-buttons .btn-pill {
-            padding: 12px 28px;
+            padding: 12px 24px;
+            font-size: 14px;
+            border-radius: var(--radius-md);
+        }
+
+        .live-buttons .btn-primary:hover, .live-buttons .btn-secondary:hover {
+            box-shadow: var(--shadow-md);
         }
 
         /* ----------------------------------------------------
            SECTION 7: LATEST INSIGHTS
         ---------------------------------------------------- */
         .insights-section {
-            background-color: var(--bg-pure);
+            background-color: var(--color-pale);
         }
 
         .insights-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
+            gap: 32px;
         }
 
         .insight-card {
-            background-color: var(--bg-pure);
-            border: 1px solid var(--border-divider);
-            border-radius: 16px;
+            background-color: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-xl);
             padding: 32px;
             display: flex;
             flex-direction: column;
             align-items: flex-start;
             gap: 16px;
             cursor: pointer;
-            transition: border-color 0.25s ease;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.2s ease;
+            text-decoration: none;
         }
 
         .insight-card:hover {
-            border-color: var(--accent-blue);
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-2px);
         }
 
-        .insight-card-image {
-            aspect-ratio: 16 / 9;
+        .insight-image-wrapper {
             width: 100%;
-            height: auto;
+            height: 160px;
+            background-color: var(--color-pale);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--color-border);
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: var(--bg-surface);
-            border: 1px solid var(--border-divider);
-            border-radius: 8px;
-            font-family: var(--font-secondary);
-            font-size: 12px;
-            color: var(--text-tertiary);
         }
 
         .insight-meta {
@@ -626,26 +673,23 @@
         }
 
         .insight-date {
-            font-family: var(--font-secondary);
-            font-size: 12px;
-            color: var(--text-tertiary);
+            font-family: var(--font-family);
+            font-size: 11px;
+            color: var(--color-subheading);
             line-height: 1.0;
         }
 
         .insight-title {
-            font-family: var(--font-primary);
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--text-primary);
+            color: var(--color-heading);
             line-height: 1.4;
             flex-grow: 1;
         }
 
         .insight-link {
-            font-family: var(--font-primary);
+            font-family: var(--font-family);
             font-size: 14px;
-            font-weight: 700;
-            color: var(--accent-blue);
+            font-weight: 500;
+            color: var(--color-primary);
             line-height: 1.0;
             margin-top: 8px;
         }
@@ -654,7 +698,7 @@
            SECTION 8: CONTACT
         ---------------------------------------------------- */
         .contact-section {
-            background-color: var(--bg-surface);
+            background-color: var(--color-surface);
         }
 
         .contact-grid {
@@ -670,11 +714,11 @@
         }
 
         .contact-subline {
-            font-family: var(--font-primary);
             font-size: 16px;
-            color: var(--text-secondary);
+            line-height: 22.4px;
+            color: var(--color-body);
             margin-bottom: 32px;
-            line-height: 1.8;
+            font-weight: 300;
         }
 
         .contact-form {
@@ -690,27 +734,28 @@
         }
 
         .form-group label {
-            font-family: var(--font-primary);
+            font-family: var(--font-family);
             font-size: 14px;
             font-weight: 500;
-            color: var(--text-dark);
+            color: var(--color-dark);
             line-height: 1.0;
         }
 
         .form-input {
-            font-family: var(--font-secondary);
+            font-family: var(--font-family);
             font-size: 16px;
             padding: 12px 16px;
-            border: 1px solid var(--border-divider);
-            border-radius: 8px;
-            background-color: var(--bg-pure);
-            color: var(--text-primary);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            background-color: var(--color-surface);
+            color: var(--color-heading);
             outline: none;
-            transition: border-color 0.25s ease;
+            transition: all 0.2s ease;
         }
 
         .form-input:focus {
-            border-color: var(--accent-blue);
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(83, 58, 253, 0.15);
         }
 
         .form-textarea {
@@ -721,7 +766,9 @@
 
         .contact-form .btn-pill {
             align-self: flex-start;
-            padding: 12px 28px;
+            padding: 12px 24px;
+            font-size: 14px;
+            border-radius: var(--radius-md);
         }
 
         .contact-right {
@@ -738,25 +785,25 @@
         }
 
         .contact-info-label {
-            font-family: var(--font-primary);
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--text-tertiary);
+            font-family: var(--font-family);
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--color-subheading);
             letter-spacing: 1px;
             text-transform: uppercase;
             line-height: 1.0;
         }
 
         .contact-info-value {
-            font-family: var(--font-primary);
-            font-size: 20px;
-            color: var(--accent-blue);
+            font-family: var(--font-family);
+            font-size: 14px;
+            color: var(--color-primary);
             font-weight: 500;
             line-height: 1.2;
         }
 
         .contact-info-value:hover {
-            color: var(--text-primary);
+            color: var(--color-dark);
             text-decoration: underline;
         }
 
@@ -767,15 +814,15 @@
         }
 
         .contact-social-link {
-            font-family: var(--font-primary);
-            font-size: 16px;
-            color: var(--accent-blue);
+            font-family: var(--font-family);
+            font-size: 14px;
+            color: var(--color-primary);
             font-weight: 500;
             line-height: 1.0;
         }
 
         .contact-social-link:hover {
-            color: var(--text-primary);
+            color: var(--color-dark);
             text-decoration: underline;
         }
 
@@ -783,19 +830,17 @@
            SECTION 9: FOOTER
         ---------------------------------------------------- */
         .main-footer {
-            background-color: var(--bg-pure);
-            border-top: 1px solid var(--border-divider);
-            padding-top: 65px;
-            padding-bottom: 32px;
+            background-color: var(--color-pale);
+            border-top: 1px solid var(--color-border);
+            padding-top: 64px;
+            padding-bottom: 40px;
         }
 
         .footer-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 32px;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            margin-bottom: 40px;
             gap: 32px;
-            flex-wrap: wrap;
         }
 
         .footer-logo-block {
@@ -805,46 +850,48 @@
         }
 
         .footer-tagline {
-            font-family: var(--font-primary);
-            font-size: 12px;
-            color: var(--text-tertiary);
-            line-height: 1.0;
+            font-family: var(--font-family);
+            font-size: 14px;
+            color: var(--color-body);
+            line-height: 1.4;
         }
 
         .footer-nav {
             display: flex;
-            gap: 24px;
+            flex-direction: column;
+            gap: 12px;
         }
 
         .footer-nav-link {
-            font-family: var(--font-primary);
+            font-family: var(--font-family);
             font-size: 14px;
-            color: var(--text-secondary);
-            font-weight: 500;
+            color: var(--color-body);
+            text-decoration: none;
         }
 
         .footer-nav-link:hover {
-            color: var(--text-primary);
+            color: var(--color-primary);
         }
 
         .footer-socials {
             display: flex;
-            gap: 24px;
+            flex-direction: column;
+            gap: 12px;
         }
 
         .footer-social-link {
-            font-family: var(--font-primary);
+            font-family: var(--font-family);
             font-size: 14px;
-            color: var(--text-secondary);
-            font-weight: 500;
+            color: var(--color-body);
+            text-decoration: none;
         }
 
         .footer-social-link:hover {
-            color: var(--text-primary);
+            color: var(--color-primary);
         }
 
         .footer-bottom {
-            border-top: 1px solid var(--border-divider);
+            border-top: 1px solid var(--color-border);
             padding-top: 32px;
             display: flex;
             flex-direction: column;
@@ -854,35 +901,28 @@
         }
 
         .footer-disclaimer {
-            font-family: var(--font-primary);
-            font-size: 12px;
-            color: var(--text-tertiary);
+            font-family: var(--font-family);
+            font-size: 11px;
+            color: var(--color-subheading);
             line-height: 1.8;
             max-width: 800px;
         }
 
         .footer-copyright {
-            font-family: var(--font-primary);
-            font-size: 12px;
-            color: var(--text-tertiary);
+            font-family: var(--font-family);
+            font-size: 11px;
+            color: var(--color-subheading);
             line-height: 1.0;
         }
 
         /* ----------------------------------------------------
-           RESPONSIVE BREAKPOINTS (visualeducation / Basant)
+           RESPONSIVE BREAKPOINTS (Stripe-optimized)
         ---------------------------------------------------- */
 
         /* Desktop Breakpoint: 1184px+ */
-        @media (min-width: 1184px) {
+        @media (min-width: 1100px) {
             .container {
-                max-width: 1184px;
-            }
-        }
-
-        /* Below Desktop Breakpoint */
-        @media (max-width: 1183px) {
-            .container {
-                max-width: 978px;
+                max-width: 1100px;
             }
         }
 
@@ -906,6 +946,17 @@
                 grid-template-columns: 1fr;
                 gap: 24px;
             }
+
+            .footer-top {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+
+            .footer-nav, .footer-socials {
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 16px;
+            }
         }
 
         /* Small Tablet/Mobile Breakpoint: 766px */
@@ -915,12 +966,12 @@
             }
 
             section {
-                padding-top: 65px;
-                padding-bottom: 65px;
+                padding-top: 40px;
+                padding-bottom: 40px;
             }
 
             .about-body {
-                margin-bottom: 65px;
+                margin-bottom: 40px;
             }
 
             .desktop-nav, .header-action {
@@ -940,21 +991,6 @@
                 grid-template-columns: 1fr;
                 gap: 32px;
             }
-
-            .footer-top {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 24px;
-            }
-
-            .footer-nav {
-                flex-direction: column;
-                gap: 16px;
-            }
-
-            .footer-socials {
-                gap: 16px;
-            }
         }
 
         /* Mobile Breakpoint: 479px */
@@ -970,7 +1006,12 @@
 
             .hero-ctas {
                 flex-direction: column;
+                align-items: stretch;
                 gap: 12px;
+            }
+
+            .hero-ctas .btn-pill {
+                width: 100%;
             }
 
             .live-buttons {
@@ -995,7 +1036,7 @@
     <header class="main-header">
         <div class="container header-container">
             <a href="#" class="logo-block">
-                <div class="logo-box">C|S</div>
+                <span class="logo-monogram">C|S</span>
                 <span class="logo-title">Chart Seekers</span>
             </a>
             
@@ -1008,7 +1049,7 @@
             </nav>
 
             <div class="header-action">
-                <a href="https://t.me/chartseekers" target="_blank" class="btn-pill btn-black">Join Community</a>
+                <a href="https://t.me/chartseekers" target="_blank" class="btn-pill btn-primary">Join Community</a>
             </div>
 
             <button class="hamburger-btn" id="menuBtn" aria-label="Toggle Navigation">
@@ -1026,21 +1067,25 @@
         <a href="#coverage" class="mobile-nav-link">Coverage</a>
         <a href="#insights" class="mobile-nav-link">Insights</a>
         <a href="#contact" class="mobile-nav-link">Contact</a>
-        <a href="https://t.me/chartseekers" target="_blank" class="btn-pill btn-black">Join Community</a>
+        <a href="https://t.me/chartseekers" target="_blank" class="btn-pill btn-primary">Join Community</a>
     </div>
 
     <!-- SECTION 2: HERO -->
     <section class="hero-section">
+        <!-- Stripe Diagonal Ribbon Graphic Shape -->
+        <div class="hero-diagonal-ribbon"></div>
+
         <div class="container hero-grid">
             <div class="hero-content fade-in">
-                <span class="hero-eyebrow">SEBI REGISTERED RESEARCH ANALYST · IN PROGRESS</span>
+                <span class="hero-eyebrow section-label">SEBI REGISTERED RESEARCH ANALYST · IN PROGRESS</span>
                 <h1 class="hero-headline">Independent Research.<br>Institutional Thinking.</h1>
                 <p class="hero-subline">Equity · Commodity · Crypto — Data-driven technical analysis for serious investors.</p>
                 <div class="hero-ctas">
-                    <a href="https://x.com/chartseekers" target="_blank" class="hero-cta-link">→ Follow on X</a>
-                    <a href="https://t.me/chartseekers" target="_blank" class="hero-cta-link">→ Join Telegram</a>
+                    <a href="https://t.me/chartseekers" target="_blank" class="btn-pill btn-primary">Join Community</a>
+                    <a href="https://x.com/chartseekers" target="_blank" class="hero-cta-link">Follow on X →</a>
                 </div>
             </div>
+            
             <div class="hero-stats fade-in">
                 <div class="stat-card">
                     <span class="stat-number">1,600+</span>
@@ -1068,9 +1113,11 @@
             <div class="about-content fade-in">
                 <span class="section-label">ABOUT</span>
                 <h2 class="section-heading">Built on Research. Driven by Discipline.</h2>
-                <p class="about-body">
-                    Chart Seekers was founded with one purpose — to bring institutional-grade technical analysis to independent investors. We cover Equity, Commodity, and Crypto markets through a disciplined, data-driven lens. Currently pursuing SEBI Registered Research Analyst certification, we are committed to building a brand rooted in transparency, accuracy, and long-term credibility.
-                </p>
+                <div class="about-body">
+                    <p>
+                        Chart Seekers was founded with one purpose — to bring institutional-grade technical analysis to independent investors. We cover Equity, Commodity, and Crypto markets through a disciplined, data-driven lens. Currently pursuing SEBI Registered Research Analyst certification, we are committed to building a brand rooted in transparency, accuracy, and long-term credibility.
+                    </p>
+                </div>
             </div>
             <hr class="divider">
         </div>
@@ -1115,32 +1162,38 @@
             <div class="coverage-grid">
                 <!-- Column 1 -->
                 <div class="coverage-col fade-in">
+                    <span class="badge-pill">Equity</span>
                     <h3 class="coverage-col-title">Equity</h3>
-                    <p class="coverage-col-body">Indian indices, large-cap stocks, sector rotation, and global market structure.</p>
+                    <p class="coverage-col-body">Indian indices, large-cap stocks, sector relative strength, and global market structure studies.</p>
                 </div>
                 <!-- Column 2 -->
                 <div class="coverage-col fade-in">
+                    <span class="badge-pill">Commodity</span>
                     <h3 class="coverage-col-title">Commodity</h3>
-                    <p class="coverage-col-body">Gold, Silver, Crude Oil — macro perspective with technical precision.</p>
+                    <p class="coverage-col-body">Gold, Silver, Crude Oil — macro perspective aligned with volume technical precision.</p>
                 </div>
                 <!-- Column 3 -->
                 <div class="coverage-col fade-in">
+                    <span class="badge-pill">Crypto</span>
                     <h3 class="coverage-col-title">Crypto</h3>
-                    <p class="coverage-col-body">Bitcoin, Ethereum, major altcoins — structural analysis, not speculation.</p>
+                    <p class="coverage-col-body">Bitcoin, Ethereum, major altcoins — strict structural price action analysis, not hype.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- SECTION 6: LIVE SESSIONS -->
+    <!-- SECTION 6: COMMUNITY/LIVE SESSIONS -->
     <section class="live-sessions-section">
+        <!-- Low opacity background shape -->
+        <div class="community-glow-shape"></div>
+
         <div class="container fade-in">
             <span class="section-label">COMMUNITY</span>
             <h2 class="section-heading">Join Our Live Research Sessions</h2>
             <p class="live-sessions-subline">We host regular X Spaces where we break down live market structure, key levels, and upcoming opportunities.</p>
             <div class="live-buttons">
-                <a href="https://x.com/chartseekers" target="_blank" class="btn-pill btn-white">Follow on X →</a>
-                <a href="https://t.me/chartseekers" target="_blank" class="btn-pill btn-outline-white">Join Telegram →</a>
+                <a href="https://x.com/chartseekers" target="_blank" class="btn-pill btn-primary">Follow on X →</a>
+                <a href="https://t.me/chartseekers" target="_blank" class="btn-pill btn-secondary">Join Telegram →</a>
             </div>
         </div>
     </section>
@@ -1156,7 +1209,9 @@
             <div class="insights-grid">
                 <!-- Card 1 -->
                 <div class="insight-card fade-in">
-                    <img src="equity_chart.png" alt="S&P 500 Equity Market Breakout Chart" style="width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border: 1px solid var(--border-divider); border-radius: 8px;">
+                    <div class="insight-image-wrapper">
+                        <img src="equity_chart.png" alt="S&P 500 Equity Market Breakout Chart" style="width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius-lg);">
+                    </div>
                     <div class="insight-meta">
                         <span class="badge-pill">Equity</span>
                         <span class="insight-date">June 2026</span>
@@ -1166,62 +1221,64 @@
                 </div>
                 <!-- Card 2 -->
                 <div class="insight-card fade-in">
-                    <svg viewBox="0 0 320 180" width="100%" height="auto" style="background-color: var(--bg-surface); border: 1px solid var(--border-divider); border-radius: 8px; display: block;">
-                        <!-- Gridlines -->
-                        <line x1="20" y1="20" x2="290" y2="20" stroke="var(--border-divider)" stroke-width="0.5" stroke-dasharray="2 2" />
-                        <line x1="20" y1="50" x2="290" y2="50" stroke="var(--border-divider)" stroke-width="0.5" stroke-dasharray="2 2" />
-                        <line x1="20" y1="80" x2="290" y2="80" stroke="var(--border-divider)" stroke-width="0.5" stroke-dasharray="2 2" />
-                        <line x1="20" y1="110" x2="290" y2="110" stroke="var(--border-divider)" stroke-width="0.5" stroke-dasharray="2 2" />
-                        <line x1="20" y1="140" x2="290" y2="140" stroke="var(--border-divider)" stroke-width="0.5" stroke-dasharray="2 2" />
-                        
-                        <!-- Y-Axis Labels -->
-                        <text x="295" y="53" font-family="var(--font-secondary)" font-size="8" fill="var(--text-tertiary)" font-weight="500">2.35K</text>
-                        <text x="295" y="83" font-family="var(--font-secondary)" font-size="8" fill="var(--text-tertiary)" font-weight="500">2.30K</text>
-                        <text x="295" y="113" font-family="var(--font-secondary)" font-size="8" fill="var(--text-tertiary)" font-weight="500">2.25K</text>
+                    <div class="insight-image-wrapper">
+                        <svg viewBox="0 0 320 180" width="100%" height="100%" style="background-color: var(--color-pale); display: block;">
+                            <!-- Gridlines -->
+                            <line x1="20" y1="20" x2="290" y2="20" stroke="var(--color-border)" stroke-width="0.5" stroke-dasharray="2 2" />
+                            <line x1="20" y1="50" x2="290" y2="50" stroke="var(--color-border)" stroke-width="0.5" stroke-dasharray="2 2" />
+                            <line x1="20" y1="80" x2="290" y2="80" stroke="var(--color-border)" stroke-width="0.5" stroke-dasharray="2 2" />
+                            <line x1="20" y1="110" x2="290" y2="110" stroke="var(--color-border)" stroke-width="0.5" stroke-dasharray="2 2" />
+                            <line x1="20" y1="140" x2="290" y2="140" stroke="var(--color-border)" stroke-width="0.5" stroke-dasharray="2 2" />
+                            
+                            <!-- Y-Axis Labels -->
+                            <text x="295" y="53" font-family="var(--font-family)" font-size="8" fill="var(--color-subheading)" font-weight="500">2.35K</text>
+                            <text x="295" y="83" font-family="var(--font-family)" font-size="8" fill="var(--color-subheading)" font-weight="500">2.30K</text>
+                            <text x="295" y="113" font-family="var(--font-family)" font-size="8" fill="var(--color-subheading)" font-weight="500">2.25K</text>
 
-                        <!-- Candlesticks (Gold - XAU/USD) -->
-                        <!-- Candle 1: Red -->
-                        <line x1="40" y1="40" x2="40" y2="90" stroke="var(--negative)" stroke-width="1" />
-                        <rect x="36" y="50" width="8" height="30" fill="var(--negative)" />
-                        
-                        <!-- Candle 2: Green -->
-                        <line x1="70" y1="60" x2="70" y2="120" stroke="var(--positive)" stroke-width="1" />
-                        <rect x="66" y="70" width="8" height="40" fill="var(--positive)" />
+                            <!-- Candlesticks (Gold - XAU/USD) -->
+                            <!-- Candle 1: Red -->
+                            <line x1="40" y1="40" x2="40" y2="90" stroke="var(--color-orange)" stroke-width="1" />
+                            <rect x="36" y="50" width="8" height="30" fill="var(--color-orange)" />
+                            
+                            <!-- Candle 2: Green -->
+                            <line x1="70" y1="60" x2="70" y2="120" stroke="var(--color-primary)" stroke-width="1" />
+                            <rect x="66" y="70" width="8" height="40" fill="var(--color-primary)" />
 
-                        <!-- Candle 3: Green -->
-                        <line x1="100" y1="40" x2="100" y2="90" stroke="var(--positive)" stroke-width="1" />
-                        <rect x="96" y="45" width="8" height="30" fill="var(--positive)" />
+                            <!-- Candle 3: Green -->
+                            <line x1="100" y1="40" x2="100" y2="90" stroke="var(--color-primary)" stroke-width="1" />
+                            <rect x="96" y="45" width="8" height="30" fill="var(--color-primary)" />
 
-                        <!-- Candle 4: Red -->
-                        <line x1="130" y1="50" x2="130" y2="110" stroke="var(--negative)" stroke-width="1" />
-                        <rect x="126" y="60" width="8" height="35" fill="var(--negative)" />
+                            <!-- Candle 4: Red -->
+                            <line x1="130" y1="50" x2="130" y2="110" stroke="var(--color-orange)" stroke-width="1" />
+                            <rect x="126" y="60" width="8" height="35" fill="var(--color-orange)" />
 
-                        <!-- Candle 5: Green -->
-                        <line x1="160" y1="30" x2="160" y2="80" stroke="var(--positive)" stroke-width="1" />
-                        <rect x="156" y="35" width="8" height="35" fill="var(--positive)" />
+                            <!-- Candle 5: Green -->
+                            <line x1="160" y1="30" x2="160" y2="80" stroke="var(--color-primary)" stroke-width="1" />
+                            <rect x="156" y="35" width="8" height="35" fill="var(--color-primary)" />
 
-                        <!-- Candle 6: Green (Breakout) -->
-                        <line x1="190" y1="15" x2="190" y2="60" stroke="var(--positive)" stroke-width="1" />
-                        <rect x="186" y="20" width="8" height="25" fill="var(--positive)" />
+                            <!-- Candle 6: Green (Breakout) -->
+                            <line x1="190" y1="15" x2="190" y2="60" stroke="var(--color-primary)" stroke-width="1" />
+                            <rect x="186" y="20" width="8" height="25" fill="var(--color-primary)" />
 
-                        <!-- Candle 7: Red -->
-                        <line x1="220" y1="20" x2="220" y2="50" stroke="var(--negative)" stroke-width="1" />
-                        <rect x="216" y="25" width="8" height="15" fill="var(--negative)" />
+                            <!-- Candle 7: Red -->
+                            <line x1="220" y1="20" x2="220" y2="50" stroke="var(--color-orange)" stroke-width="1" />
+                            <rect x="216" y="25" width="8" height="15" fill="var(--color-orange)" />
 
-                        <!-- Candle 8: Green -->
-                        <line x1="250" y1="10" x2="250" y2="40" stroke="var(--positive)" stroke-width="1" />
-                        <rect x="246" y="12" width="8" height="20" fill="var(--positive)" />
+                            <!-- Candle 8: Green -->
+                            <line x1="250" y1="10" x2="250" y2="40" stroke="var(--color-primary)" stroke-width="1" />
+                            <rect x="246" y="12" width="8" height="20" fill="var(--color-primary)" />
 
-                        <!-- Candle 9: Green -->
-                        <line x1="280" y1="5" x2="280" y2="30" stroke="var(--positive)" stroke-width="1" />
-                        <rect x="276" y="8" width="8" height="15" fill="var(--positive)" />
+                            <!-- Candle 9: Green -->
+                            <line x1="280" y1="5" x2="280" y2="30" stroke="var(--color-primary)" stroke-width="1" />
+                            <rect x="276" y="8" width="8" height="15" fill="var(--color-primary)" />
 
-                        <!-- Moving Average line -->
-                        <path d="M 40 75 Q 70 85 100 65 T 160 45 T 220 30 T 280 15" fill="none" stroke="var(--accent-blue)" stroke-width="1.5" />
-                        
-                        <!-- Title Text Overlay -->
-                        <text x="12" y="18" font-family="var(--font-primary)" font-weight="700" font-size="9" fill="var(--text-primary)">XAU/USD 1D · Gold Commodity</text>
-                    </svg>
+                            <!-- Moving Average line -->
+                            <path d="M 40 75 Q 70 85 100 65 T 160 45 T 220 30 T 280 15" fill="none" stroke="var(--color-lavender)" stroke-width="1.5" />
+                            
+                            <!-- Title Text Overlay -->
+                            <text x="12" y="18" font-family="var(--font-family)" font-weight="700" font-size="9" fill="var(--color-heading)">XAU/USD 1D · Gold Commodity</text>
+                        </svg>
+                    </div>
                     <div class="insight-meta">
                         <span class="badge-pill">Commodity</span>
                         <span class="insight-date">June 2026</span>
@@ -1231,62 +1288,64 @@
                 </div>
                 <!-- Card 3 -->
                 <div class="insight-card fade-in">
-                    <svg viewBox="0 0 320 180" width="100%" height="auto" style="background-color: var(--bg-surface); border: 1px solid var(--border-divider); border-radius: 8px; display: block;">
-                        <!-- Gridlines -->
-                        <line x1="20" y1="20" x2="290" y2="20" stroke="var(--border-divider)" stroke-width="0.5" stroke-dasharray="2 2" />
-                        <line x1="20" y1="50" x2="290" y2="50" stroke="var(--border-divider)" stroke-width="0.5" stroke-dasharray="2 2" />
-                        <line x1="20" y1="80" x2="290" y2="80" stroke="var(--border-divider)" stroke-width="0.5" stroke-dasharray="2 2" />
-                        <line x1="20" y1="110" x2="290" y2="110" stroke="var(--border-divider)" stroke-width="0.5" stroke-dasharray="2 2" />
-                        <line x1="20" y1="140" x2="290" y2="140" stroke="var(--border-divider)" stroke-width="0.5" stroke-dasharray="2 2" />
-                        
-                        <!-- Y-Axis Labels -->
-                        <text x="295" y="53" font-family="var(--font-secondary)" font-size="8" fill="var(--text-tertiary)" font-weight="500">69K</text>
-                        <text x="295" y="83" font-family="var(--font-secondary)" font-size="8" fill="var(--text-tertiary)" font-weight="500">67K</text>
-                        <text x="295" y="113" font-family="var(--font-secondary)" font-size="8" fill="var(--text-tertiary)" font-weight="500">65K</text>
+                    <div class="insight-image-wrapper">
+                        <svg viewBox="0 0 320 180" width="100%" height="100%" style="background-color: var(--color-pale); display: block;">
+                            <!-- Gridlines -->
+                            <line x1="20" y1="20" x2="290" y2="20" stroke="var(--color-border)" stroke-width="0.5" stroke-dasharray="2 2" />
+                            <line x1="20" y1="50" x2="290" y2="50" stroke="var(--color-border)" stroke-width="0.5" stroke-dasharray="2 2" />
+                            <line x1="20" y1="80" x2="290" y2="80" stroke="var(--color-border)" stroke-width="0.5" stroke-dasharray="2 2" />
+                            <line x1="20" y1="110" x2="290" y2="110" stroke="var(--color-border)" stroke-width="0.5" stroke-dasharray="2 2" />
+                            <line x1="20" y1="140" x2="290" y2="140" stroke="var(--color-border)" stroke-width="0.5" stroke-dasharray="2 2" />
+                            
+                            <!-- Y-Axis Labels -->
+                            <text x="295" y="53" font-family="var(--font-family)" font-size="8" fill="var(--color-subheading)" font-weight="500">69K</text>
+                            <text x="295" y="83" font-family="var(--font-family)" font-size="8" fill="var(--color-subheading)" font-weight="500">67K</text>
+                            <text x="295" y="113" font-family="var(--font-family)" font-size="8" fill="var(--color-subheading)" font-weight="500">65K</text>
 
-                        <!-- Candlesticks (Bitcoin - BTC/USD) -->
-                        <!-- Candle 1: Green -->
-                        <line x1="40" y1="80" x2="40" y2="130" stroke="var(--positive)" stroke-width="1" />
-                        <rect x="36" y="90" width="8" height="30" fill="var(--positive)" />
-                        
-                        <!-- Candle 2: Red -->
-                        <line x1="70" y1="90" x2="70" y2="140" stroke="var(--negative)" stroke-width="1" />
-                        <rect x="66" y="100" width="8" height="30" fill="var(--negative)" />
+                            <!-- Candlesticks (Bitcoin - BTC/USD) -->
+                            <!-- Candle 1: Green -->
+                            <line x1="40" y1="80" x2="40" y2="130" stroke="var(--color-primary)" stroke-width="1" />
+                            <rect x="36" y="90" width="8" height="30" fill="var(--color-primary)" />
+                            
+                            <!-- Candle 2: Red -->
+                            <line x1="70" y1="90" x2="70" y2="140" stroke="var(--color-orange)" stroke-width="1" />
+                            <rect x="66" y="100" width="8" height="30" fill="var(--color-orange)" />
 
-                        <!-- Candle 3: Red -->
-                        <line x1="100" y1="100" x2="100" y2="150" stroke="var(--negative)" stroke-width="1" />
-                        <rect x="96" y="110" width="8" height="30" fill="var(--negative)" />
+                            <!-- Candle 3: Red -->
+                            <line x1="100" y1="100" x2="100" y2="150" stroke="var(--color-orange)" stroke-width="1" />
+                            <rect x="96" y="110" width="8" height="30" fill="var(--color-orange)" />
 
-                        <!-- Candle 4: Green (Support bounce) -->
-                        <line x1="130" y1="85" x2="130" y2="148" stroke="var(--positive)" stroke-width="1" />
-                        <rect x="126" y="100" width="8" height="40" fill="var(--positive)" />
+                            <!-- Candle 4: Green (Support bounce) -->
+                            <line x1="130" y1="85" x2="130" y2="148" stroke="var(--color-primary)" stroke-width="1" />
+                            <rect x="126" y="100" width="8" height="40" fill="var(--color-primary)" />
 
-                        <!-- Candle 5: Green -->
-                        <line x1="160" y1="60" x2="160" y2="110" stroke="var(--positive)" stroke-width="1" />
-                        <rect x="156" y="70" width="8" height="35" fill="var(--positive)" />
+                            <!-- Candle 5: Green -->
+                            <line x1="160" y1="60" x2="160" y2="110" stroke="var(--color-primary)" stroke-width="1" />
+                            <rect x="156" y="70" width="8" height="35" fill="var(--color-primary)" />
 
-                        <!-- Candle 6: Red -->
-                        <line x1="190" y1="70" x2="190" y2="100" stroke="var(--negative)" stroke-width="1" />
-                        <rect x="186" y="75" width="8" height="20" fill="var(--negative)" />
+                            <!-- Candle 6: Red -->
+                            <line x1="190" y1="70" x2="190" y2="100" stroke="var(--color-orange)" stroke-width="1" />
+                            <rect x="186" y="75" width="8" height="20" fill="var(--color-orange)" />
 
-                        <!-- Candle 7: Green (Breakout) -->
-                        <line x1="220" y1="30" x2="220" y2="85" stroke="var(--positive)" stroke-width="1" />
-                        <rect x="216" y="40" width="8" height="40" fill="var(--positive)" />
+                            <!-- Candle 7: Green (Breakout) -->
+                            <line x1="220" y1="30" x2="220" y2="85" stroke="var(--color-primary)" stroke-width="1" />
+                            <rect x="216" y="40" width="8" height="40" fill="var(--color-primary)" />
 
-                        <!-- Candle 8: Green -->
-                        <line x1="250" y1="15" x2="250" y2="55" stroke="var(--positive)" stroke-width="1" />
-                        <rect x="246" y="20" width="8" height="30" fill="var(--positive)" />
+                            <!-- Candle 8: Green -->
+                            <line x1="250" y1="15" x2="250" y2="55" stroke="var(--color-primary)" stroke-width="1" />
+                            <rect x="246" y="20" width="8" height="30" fill="var(--color-primary)" />
 
-                        <!-- Candle 9: Red -->
-                        <line x1="280" y1="20" x2="280" y2="60" stroke="var(--negative)" stroke-width="1" />
-                        <rect x="276" y="25" width="8" height="25" fill="var(--negative)" />
+                            <!-- Candle 9: Red -->
+                            <line x1="280" y1="20" x2="280" y2="60" stroke="var(--color-orange)" stroke-width="1" />
+                            <rect x="276" y="25" width="8" height="25" fill="var(--color-orange)" />
 
-                        <!-- Moving Average line -->
-                        <path d="M 40 115 Q 70 120 100 130 T 160 90 T 220 55 T 280 40" fill="none" stroke="var(--accent-blue)" stroke-width="1.5" />
-                        
-                        <!-- Title Text Overlay -->
-                        <text x="12" y="18" font-family="var(--font-primary)" font-weight="700" font-size="9" fill="var(--text-primary)">BTC/USD 1W · Bitcoin Weekly</text>
-                    </svg>
+                            <!-- Moving Average line -->
+                            <path d="M 40 115 Q 70 120 100 130 T 160 90 T 220 55 T 280 40" fill="none" stroke="var(--color-lavender)" stroke-width="1.5" />
+                            
+                            <!-- Title Text Overlay -->
+                            <text x="12" y="18" font-family="var(--font-family)" font-weight="700" font-size="9" fill="var(--color-heading)">BTC/USD 1W · Bitcoin Weekly</text>
+                        </svg>
+                    </div>
                     <div class="insight-meta">
                         <span class="badge-pill">Crypto</span>
                         <span class="insight-date">June 2026</span>
@@ -1319,7 +1378,7 @@
                         <label for="messageInput">Message</label>
                         <textarea id="messageInput" class="form-input form-textarea" required placeholder="Describe your inquiry..."></textarea>
                     </div>
-                    <button type="submit" class="btn-pill btn-black">Send Message</button>
+                    <button type="submit" class="btn-pill btn-primary">Send Message</button>
                 </form>
             </div>
             
@@ -1346,10 +1405,10 @@
         <div class="container">
             <div class="footer-top">
                 <div class="footer-logo-block">
-                    <div class="logo-block">
-                        <div class="logo-box">C|S</div>
-                        <span class="logo-title">Chart Seekers</span>
-                    </div>
+                    <a href="#" class="logo-block">
+                        <span class="logo-monogram">C|S</span>
+                        <span class="logo-title" style="font-weight: 700;">Chart Seekers</span>
+                    </a>
                     <span class="footer-tagline">Research & Technical Analysis</span>
                 </div>
                 
@@ -1362,7 +1421,7 @@
                 </nav>
                 
                 <div class="footer-socials">
-                    <a href="https://x.com/chartseekers" target="_blank" class="footer-social-link">X</a>
+                    <a href="https://x.com/chartseekers" target="_blank" class="footer-social-link">X (Twitter)</a>
                     <a href="https://t.me/chartseekers" target="_blank" class="footer-social-link">Telegram</a>
                     <a href="https://youtube.com/@chartseekers" target="_blank" class="footer-social-link">YouTube</a>
                 </div>
@@ -1382,6 +1441,16 @@
     <!-- Minimal Scroll Animation & Menu Logic -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Scroll class toggle for Header (backdrop blur & shadow)
+            const mainHeader = document.querySelector('.main-header');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 15) {
+                    mainHeader.classList.add('header-scrolled');
+                } else {
+                    mainHeader.classList.remove('header-scrolled');
+                }
+            });
+
             // Scroll fade-in animation using Intersection Observer
             const observerOptions = {
                 root: null,
@@ -1438,12 +1507,12 @@
                     
                     setTimeout(() => {
                         submitBtn.textContent = 'Message Sent';
-                        submitBtn.style.backgroundColor = '#19AF55'; // Positive Green
+                        submitBtn.style.backgroundColor = '#19AF55'; // Success Positive Green
                         contactForm.reset();
                         
                         setTimeout(() => {
                             submitBtn.textContent = originalText;
-                            submitBtn.style.backgroundColor = ''; // Back to black
+                            submitBtn.style.backgroundColor = ''; // Back to theme primary indigo
                             submitBtn.disabled = false;
                         }, 2500);
                     }, 1200);
